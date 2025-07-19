@@ -20,4 +20,5 @@ always@(posedge clk)begin
 		registers[rd_index] <= wb_data;
 	end
 end
-endmodule// endmodify
+endmodule
+// endmodify
