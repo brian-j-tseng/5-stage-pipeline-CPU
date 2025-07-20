@@ -1,687 +1,354 @@
 .data
-lw_data: .word 0x66666666
+num_test: .word 3 
+TEST1_SIZE: .word 34
+TEST2_SIZE: .word 19
+TEST3_SIZE: .word 29
+test1: .word 3,41,18,8,40,6,45,1,18,10,24,46,37,23,43,12,3,37,0,15,11,49,47,27,23,30,16,10,45,39,1,23,40,38
+test2: .word -3,-23,-22,-6,-21,-19,-1,0,-2,-47,-17,-46,-6,-30,-50,-13,-47,-9,-50
+test3: .word -46,0,-29,-2,23,-46,46,9,-18,-23,35,-37,3,-24,-18,22,0,15,-43,-16,-17,-42,-49,-29,19,-44,0,-18,23
 
 .text
-.globl main
+.global main
 
 main:
+
+# ######################################
+# ### Load address of _answer to s0 
+# ######################################
+
   addi sp, sp, -4
   sw s0, 0(sp)
   la s0, _answer
-add:
-  li t0, 0xffffffff # -1
-  li t1, 0xffffffff # -1
-  add t0, t0, t1    # t0 = -2
-  add t0, t0, t1    # t0 = -3
-  add t0, t0, t1    # t0 = -4
-  add t0, t0, t1    # t0 = -5
-  add t0, t0, t1    # t0 = -6
-  li t1, 0xfffffffe # -2
-  add t0, t1, t0    # t0 = -8
-  add t0, t1, t0    # t0 = -10
-  add t0, t1, t0    # t0 = -12
-  add t0, t1, t0    # t0 = -14
-  add t0, t1, t0    # t0 = -16
-  sw t0, 0(s0)
-  addi s0, s0, 4
-sub:
-  li t0, 0x00000000 # 0
-  li t1, 0xffffffff # -1
-  sub t0, t0, t1    # t0 = 1
-  sub t0, t0, t1    # t0 = 2
-  sub t0, t0, t1    # t0 = 3
-  sub t0, t0, t1    # t0 = 4
-  sub t0, t0, t1    # t0 = 5
-  li t1, 0xfffffffd # -3
-  sub t0, t1, t0    # t0 = -8
-  sub t0, t1, t0    # t0 = 5
-  sub t0, t1, t0    # t0 = -8
-  sub t0, t1, t0    # t0 = 5
-  sub t0, t1, t0    # t0 = -8
-  sw t0, 0(s0)
-  addi s0, s0, 4
-sll:
-  li t0, 0x00000001 # 1
-  li t1, 0x00000001 # 1
-  sll t0, t0, t1    # t0 = 2
-  sll t0, t0, t1    # t0 = 4
-  sll t0, t0, t1    # t0 = 8
-  sll t0, t0, t1    # t0 = 16
-  sll t0, t0, t1    # t0 = 32
-  li t1, 0x00000002 # 2
-  sll t0, t1, t0    # t0 = 2
-  sll t0, t1, t0    # t0 = 8
-  sll t0, t1, t0    # t0 = 512
-  sll t0, t1, t0    # t0 = 2
-  sll t0, t1, t0    # t0 = 8
-  sw t0, 0(s0)
-  addi s0, s0, 4
-slt:
-  li t0, 0xffffffff # -1
-  li t1, 0x00000001 # 1
-  slt t0, t0, t1    # t0 = 1
-  slt t0, t0, t1    # t0 = 0
-  slt t0, t0, t1    # t0 = 1
-  slt t0, t0, t1    # t0 = 0
-  slt t0, t0, t1    # t0 = 1
-  li t1, 0xffffffff # -1
-  slt t0, t1, t0    # t0 = 1
-  slt t0, t1, t0    # t0 = 1
-  slt t0, t1, t0    # t0 = 1
-  slt t0, t1, t0    # t0 = 1
-  slt t0, t1, t0    # t0 = 1
-  sw t0, 0(s0)
-  addi s0, s0, 4
-sltu:
-  li t0, 0xffffffff # large positive number
-  li t1, 0x00000001 # 1
-  sltu t0, t0, t1   # t0 = 0
-  sltu t0, t0, t1   # t0 = 1
-  sltu t0, t0, t1   # t0 = 0
-  sltu t0, t0, t1   # t0 = 1
-  sltu t0, t0, t1   # t0 = 0
-  sltu t0, t0, t1   # t0 = 1
-  li t1, 0x00000000 # 0
-  sltu t0, t1, t0   # t0 = 1
-  sltu t0, t1, t0   # t0 = 1
-  sltu t0, t1, t0   # t0 = 1
-  sltu t0, t1, t0   # t0 = 1
-  sltu t0, t1, t0   # t0 = 1
-  sw t0, 0(s0)
-  addi s0, s0, 4
-xor:
-  li t0, 0xffffffff # 
-  li t1, 0xf0f0f0f0 # 
-  xor t0, t0, t1    # t0 = 0x0f0f0f0f
-  xor t0, t0, t1    # t0 = 0xffffffff
-  xor t0, t0, t1    # t0 = 0x0f0f0f0f
-  xor t0, t0, t1    # t0 = 0xffffffff
-  xor t0, t0, t1    # t0 = 0x0f0f0f0f
-  li t1, 0x77777777 # 
-  xor t0, t1, t0    # t0 = 0x78787878
-  xor t0, t1, t0    # t0 = 0x0f0f0f0f
-  xor t0, t1, t0    # t0 = 0x78787878
-  xor t0, t1, t0    # t0 = 0x0f0f0f0f
-  xor t0, t1, t0    # t0 = 0x78787878
-  sw t0, 0(s0)
-  addi s0, s0, 4
-srl:
-  li t0, 0xffffffff #
-  li t1, 0x75eca864 #
-  srl t0, t0, t1    # t0 = 0x0fffffff
-  srl t0, t0, t1    # t0 = 0x00ffffff
-  srl t0, t0, t1    # t0 = 0x000fffff
-  srl t0, t0, t1    # t0 = 0x0000ffff
-  srl t0, t0, t1    # t0 = 0x00000fff
-  li t1, 0x12345678 #
-  srl t0, t1, t0    # t0 = 0x00000000
-  srl t0, t1, t0    # t0 = 0x12345678
-  srl t0, t1, t0    # t0 = 0x00000012
-  srl t0, t1, t0    # t0 = 0x0000048d
-  srl t0, t1, t0    # t0 = 0x000091a2
-  sw t0, 0(s0)
-  addi s0, s0, 4
-sra:
-  li t0, 0x87654321 #
-  li t1, 0x00000004 #
-  sra t0, t0, t1    # t0 = 0xf8765432
-  sra t0, t0, t1    # t0 = 0xff876543
-  sra t0, t0, t1    # t0 = 0xfff87654
-  sra t0, t0, t1    # t0 = 0xffff8765
-  sra t0, t0, t1    # t0 = 0xfffff876
-  li t1, 0x77777777 #
-  sra t0, t1, t0    # t0 = 0x000001dd
-  sra t0, t1, t0    # t0 = 0x00000003
-  sra t0, t1, t0    # t0 = 0x0eeeeeee
-  sra t0, t1, t0    # t0 = 0x0001dddd
-  sra t0, t1, t0    # t0 = 0x00000003
-  sw t0, 0(s0)
-  addi s0, s0, 4
-or:
-  li t0, 0x12345678 # 
-  li t1, 0xfedcba98 # 
-  or t0, t0, t1     # t0 = 0xfefcfef8
-  or t0, t0, t1     # t0 = 0xfefcfef8
-  or t0, t0, t1     # t0 = 0xfefcfef8
-  or t0, t0, t1     # t0 = 0xfefcfef8
-  or t0, t0, t1     # t0 = 0xfefcfef8
-  li t1, 0x62400285 # 
-  or t0, t1, t0     # t0 = 0xfefcfefd
-  or t0, t1, t0     # t0 = 0xfefcfefd
-  or t0, t1, t0     # t0 = 0xfefcfefd
-  or t0, t1, t0     # t0 = 0xfefcfefd
-  or t0, t1, t0     # t0 = 0xfefcfefd
-  sw t0, 0(s0)
-  addi s0, s0, 4
-and:
-  li t0, 0x12345678 # 
-  li t1, 0xffffffff # 
-  and t0, t0, t1    # t0 = 0x12345678
-  and t0, t0, t1    # t0 = 0x12345678
-  and t0, t0, t1    # t0 = 0x12345678
-  and t0, t0, t1    # t0 = 0x12345678
-  and t0, t0, t1    # t0 = 0x12345678
-  li t1, 0xf0f0f0f0 # 
-  and t0, t1, t0    # t0 = 0x10305070
-  and t0, t1, t0    # t0 = 0x10305070
-  and t0, t1, t0    # t0 = 0x10305070
-  and t0, t1, t0    # t0 = 0x10305070
-  and t0, t1, t0    # t0 = 0x10305070
-  sw t0, 0(s0)
-  addi s0, s0, 4
-load:
-  la t1, lw_data
-  lw t0, 0(t1)
-  addi sp, sp, -20  # sp = sp0
-  sw t0, 0(sp)      # DM[sp0] = 0x66666666
-  addi t0, sp, 0    # t0 = sp0
-  sw t0, 4(sp)      # DM[sp4] = sp0
-  addi t0, sp, 4    # t0 = sp4
-  sw t0, 8(sp)      # DM[sp8] = sp4
-  addi t0, sp, 8    # t0 = sp8
-  sw t0, 12(sp)     # DM[sp12] = sp8
-  addi t0, sp, 12   # t0 = sp16
-  sw t0, 16(sp)     # DM[sp16] = sp12
-  addi t0, sp, 16   # t0 = sp16
-  lw t0, 0(t0)      # t0 = DM[sp16] = sp12
-  lw t0, 0(t0)      # t0 = DM[sp12] = sp8
-  lw t0, 0(t0)      # t0 = DM[sp8] = sp4
-  lw t0, 0(t0)      # t0 = DM[sp4] = sp0
-  lw t0, 0(t0)      # t0 = DM[sp0] = 0x66666666
-  addi sp, sp, 20   # sp = sp20
-  lw t1, -4(sp)     # t1 = DM[sp16] = sp12
-  lw t2, -8(sp)     # t2 = DM[sp12] = sp8 
-  lw t3, -12(sp)    # t3 = DM[sp8] = sp4
-  lw t4, -16(sp)    # t4 = DM[sp4] = sp0
-  lw t5, -20(sp)    # t5 = DM[sp0] = 0x66666666
-  add t1, t1, t4    # t1 = sp12 + sp0
-  add t2, t2, t3    # t2 = sp8 + sp4
-  sub t1, t1, t2    # t1 = sp12 + sp0 - (sp8 + sp4) = 0
-  add t1, t1, t5    # t1 = 0x66666666
-  add t0, t0, t1    # t0 = 0xcccccccc
-  addi s0, s0, 16
-  sw t0, -16(s0)
-  lb t1, -16(s0)    # t1 = 0xffffffcc
-  lh t2, -16(s0)    # t2 = 0xffffcccc
-  lbu t3, -16(s0)   # t3 = 0x000000cc
-  lhu t4, -16(s0)   # t4 = 0x0000cccc
-  sw t1, -12(s0)
-  sw t2, -8(s0)
-  sw t3, -4(s0) 
-  sw t4, 0(s0) 
-  addi s0, s0, 4
-addi:
-  li t0, 0xffffffff  # -1
-  addi t0, t0, -1    # t0 = -2
-  addi t0, t0, 1893  # t0 = 0x00000763
-  addi t0, t0, -1912 # t0 = 0xffffffeb
-  addi t0, t0, 1074  # t0 = 0x0000041d
-  addi t0, t0, -1348 # t0 = 0xfffffed9
-  li t1, 0x00000521  # t1 = 1313
-  addi t2, t1, -798  # t2 = 515
-  addi t3, t1, 315   # t3 = 1628
-  addi t4, t1, 1177  # t4 = 2490
-  addi t5, t1, -2047 # t5 = -734
-  addi t6, t1, -1432 # t6 = -119
-  add t2, t2, t3     # t2 = 2143
-  add t4, t4, t5     # t4 = 1756
-  add t0, t0, t6     # t0 = -414
-  add t2, t2, t4     # t2 = 3899
-  add t0, t0, t2     # t0 = 0x00000d9d
-  sw t0, 0(s0)
-  addi s0, s0, 4
-slti:
-  li t0, 0xffffffff  # -1
-  slti t0, t0, -1    # t0 = 0
-  slti t0, t0, 1000  # t0 = 1
-  slti t0, t0, -2000 # t0 = 0
-  slti t0, t0, 1     # t0 = 1
-  slti t0, t0, 1111  # t0 = 1
-  li t1, 0xfffffc66  # -922
-  slti t2, t1, -876  # t2 = 1
-  slti t3, t1, 555   # t3 = 1
-  slti t4, t1, -1996 # t4 = 0
-  slti t5, t1, 0     # t5 = 1
-  slti t6, t1, -922  # t6 = 0
-  add t2, t2, t3     # t2 = 2
-  add t4, t4, t5     # t4 = 1
-  add t0, t0, t6     # t0 = 1
-  add t2, t2, t4     # t2 = 3
-  add t0, t0, t2     # t0 = 4
-  sw t0, 0(s0)
-  addi s0, s0, 4
-sltiu:
-  li t0, 0xfffffffe   # large positive number
-  sltiu t0, t0, -1    # t0 = 1 (< 0xffffffff)
-  sltiu t0, t0, 1000  # t0 = 1
-  sltiu t0, t0, -2000 # t0 = 1
-  sltiu t0, t0, -255  # t0 = 1
-  sltiu t0, t0, 1     # t0 = 0
-  li t1, 0xaaaabbbb   # large positive number
-  sltiu t2, t1, -876  # t2 = 1
-  sltiu t3, t1, 555   # t3 = 0
-  sltiu t4, t1, -1996 # t4 = 1
-  sltiu t5, t1, 0     # t5 = 0
-  sltiu t6, t1, -922  # t6 = 1
-  add t2, t2, t3      # t2 = 1
-  add t4, t4, t5      # t4 = 1
-  add t0, t0, t6      # t0 = 1
-  add t2, t2, t4      # t2 = 2
-  add t0, t0, t2      # t0 = 3
-  sw t0, 0(s0)
-  addi s0, s0, 4
-xori:
-  li t0, 0xffffffff  #
-  xori t0, t0, 123   # t0 = 0xffffff84
-  xori t0, t0, -1675 # t0 = 0x000006f1
-  xori t0, t0, -831  # t0 = 0xfffffa30
-  xori t0, t0, 2033  # t0 = 0xfffffdc1
-  xori t0, t0, 1187  # t0 = 0xfffff962
-  li t1, 0x00000387  # t1 = 903
-  xori t2, t1, -285  # t2 = 0xfffffd64
-  xori t3, t1, 164   # t3 = 0x00000323
-  xori t4, t1, 1766  # t4 = 0x00000561
-  xori t5, t1, -1895 # t5 = 0xfffffb1e
-  xori t6, t1, 1209  # t6 = 0x0000073e
-  add t2, t2, t3     # t2 = 0x00000087
-  add t4, t4, t5     # t4 = 0x0000007f
-  add t0, t0, t6     # t0 = 0x000000a0
-  add t2, t2, t4     # t2 = 0x00000106
-  add t0, t0, t2     # t0 = 0x000001a6
-  sw t0, 0(s0)
-  addi s0, s0, 4
-ori:
-  li t0, 0x00000001 #
-  ori t0, t0, 444   # t0 = 0x000001bd
-  ori t0, t0, 1765  # t0 = 0x000007fd
-  ori t0, t0, -291  # t0 = 0xfffffffd
-  ori t0, t0, 156   # t0 = 0xfffffffd
-  ori t0, t0, 1282  # t0 = 0xffffffff
-  li t1, 0x00000783 # t1 = 1923
-  ori t2, t1, 285   # t2 = 0x0000079f
-  ori t3, t1, -164  # t3 = 0xffffffdf
-  ori t4, t1, -1766 # t4 = 0xffffff9b
-  ori t5, t1, 1895  # t5 = 0x000007e7
-  ori t6, t1, -1209 # t6 = 0xffffffc7
-  add t2, t2, t3    # t2 = 0x0000077e
-  add t4, t4, t5    # t4 = 0x00000782
-  add t0, t0, t6    # t0 = 0xffffffc6
-  add t2, t2, t4    # t2 = 0x00000f00
-  add t0, t0, t2    # t0 = 0x00000ec6
-  sw t0, 0(s0)
-  addi s0, s0, 4
-andi:
-  li t0, 0xabcdef98  #
-  andi t0, t0, -333  # t0 = 0xabcdef90
-  andi t0, t0, -188  # t0 = 0xabcdee00
-  andi t0, t0, 521   # t0 = 0x00000200
-  andi t0, t0, -377  # t0 = 0x00000200
-  andi t0, t0, 853   # t0 = 0x00000200
-  li t1, 0x12345678  #
-  andi t2, t1, 2033  # t2 = 0x00000670
-  andi t3, t1, 218   # t3 = 0x00000058
-  andi t4, t1, -316  # t4 = 0x12345640
-  andi t5, t1, 1199  # t5 = 0x00000428
-  andi t6, t1, -775  # t6 = 0x12345478
-  add t2, t2, t3     # t2 = 0x000006c8
-  add t4, t4, t5     # t4 = 0x12345a68
-  add t0, t0, t6     # t0 = 0x12345678
-  add t2, t2, t4     # t2 = 0x12346130
-  add t0, t0, t2     # t0 = 0x2468b7a8
-  sw t0, 0(s0)
-  addi s0, s0, 4
-slli:
-  li t0, 0x0000000a  #
-  slli t0, t0, 2     # t0 = 0x00000028
-  slli t0, t0, 5     # t0 = 0x00000500
-  slli t0, t0, 7     # t0 = 0x00028000
-  slli t0, t0, 10    # t0 = 0x0a000000
-  slli t0, t0, 6     # t0 = 0x80000000
-  li t1, 0x1ab23cd4  #
-  slli t2, t1, 15    # t2 = 0x1e6a0000
-  slli t3, t1, 6     # t3 = 0xac8f3500
-  slli t4, t1, 28    # t4 = 0x40000000
-  slli t5, t1, 17    # t5 = 0x79a80000
-  slli t6, t1, 7     # t6 = 0x591e6a00
-  add t2, t2, t3     # t2 = 0xcaf93500
-  add t4, t4, t5     # t4 = 0xb9a80000
-  add t0, t0, t6     # t0 = 0xd91e6a00
-  add t2, t2, t4     # t2 = 0x84a13500
-  add t0, t0, t2     # t0 = 0x5dbf9f00
-  sw t0, 0(s0)
-  addi s0, s0, 4
-srli:
-  li t0, 0xa1b2c3d4  #
-  srli t0, t0, 3     # t0 = 0x1436587a
-  srli t0, t0, 4     # t0 = 0x01436587
-  srli t0, t0, 6     # t0 = 0x00050d96
-  srli t0, t0, 11    # t0 = 0x00000161
-  srli t0, t0, 7     # t0 = 0x00000001
-  li t1, 0xaabf790c  #
-  srli t2, t1, 25    # t2 = 0x00000055
-  srli t3, t1, 16    # t3 = 0x0000aabf
-  srli t4, t1, 18    # t4 = 0x00002aaf
-  srli t5, t1, 27    # t5 = 0x00000015
-  srli t6, t1, 17    # t6 = 0x0000555f
-  add t2, t2, t3     # t2 = 0x0000ab14
-  add t4, t4, t5     # t4 = 0x00002ac4
-  add t0, t0, t6     # t0 = 0x00005560
-  add t2, t2, t4     # t2 = 0x0000d5d8
-  add t0, t0, t2     # t0 = 0x00012b38
-  sw t0, 0(s0)
-  addi s0, s0, 4
-srai:
-  li t0, 0xa1b2c3d4  #
-  srai t0, t0, 5     # t0 = 0xfd0d961e
-  srai t0, t0, 2     # t0 = 0xff436587
-  srai t0, t0, 8     # t0 = 0xffff4365
-  srai t0, t0, 9     # t0 = 0xffffffa1
-  srai t0, t0, 4     # t0 = 0xfffffffa
-  li t1, 0xaabf790c  #
-  srai t2, t1, 13    # t2 = 0xfffd55fb
-  srai t3, t1, 8     # t3 = 0xffaabf79
-  srai t4, t1, 9     # t4 = 0xffd55fbc
-  srai t5, t1, 14    # t5 = 0xfffeaafd
-  srai t6, t1, 4     # t6 = 0xfaabf790
-  add t2, t2, t3     # t2 = 0xffa81574
-  add t4, t4, t5     # t4 = 0xffd40ab9
-  add t0, t0, t6     # t0 = 0xfaabf78a
-  add t2, t2, t4     # t2 = 0xff7c202d
-  add t0, t0, t2     # t0 = 0xfa2817b7
-  sw t0, 0(s0)
-  addi s0, s0, 4
-jalr:
-  li t0, 0xfffff000  #
-  la t1, 1f
-  jalr t1, t1, 0     # First jump
-  ori t0, t0, 1      # t0 = 0xfffff001 // Shouldn't be execute
-  jalr t1, t1, 4     # Third jump
-  ori t0, t0, 4      # t0 = 0xfffff004 // Shouldn't be execute
-  jalr t1, t1, 4     # Fifth jump
-  ori t0, t0, 16     # t0 = 0xfffff010 // Shouldn't be execute
-1:
-  jalr t1, t1, 4     # Second jump
-  ori t0, t0, 1      # t0 = 0xfffff002 // Shouldn't be execute
-  jalr t1, t1, 4     # Fourth jump
-  ori t0, t0, 8      # t0 = 0xfffff008 // Shouldn't be execute
-# // ===================
-  la t1, 2f
-  jalr t2, t1, -32   # t2 = t1 - 36    // First jump
-  ori t0, t0, 32     # t0 = 0xfffff020 // Shouldn't be execute
-  jalr t3, t1, -24   # t3 = t1 - 28    // Second jump
-  ori t0, t0, 64     # t0 = 0xfffff040 // Shouldn't be execute
-  jalr t4, t1, -16   # t4 = t1 - 20    // Third jump
-  ori t0, t0, 128    # t0 = 0xfffff080 // Shouldn't be execute
-  jalr t5, t1, -8    # t5 = t1 - 12    // Fourth jump
-  ori t0, t0, 256    # t0 = 0xfffff100 // Shouldn't be execute
-  jalr t6, t1, 0     # t6 = t1 - 4     // Fifth jump
-  ori t0, t0, 512    # t0 = 0xfffff200 // Shouldn't be execute
-2:
-  sub t2, t2, t3     # t2 = -8
-  sub t4, t4, t5     # t4 = -8
-  sub t6, t6, t1     # t6 = -4
-  add t2, t2, t4     # t2 = -16
-  add t1, t2, t6     # t1 = -20
-  sll t0, t0, t1     # t0 = 0xfffff000 << 5'b01100 = 0xff000000
-  sw t0, 0(s0)
-  addi s0, s0, 4
-store:
-  li t0, 0x0000000f  #
-  li t1, 0x000000f0  #
-  li t2, 0x00000f00  #
-  li t3, 0x0000f000  #
-  li t4, 0x12345678  #
-  addi s0, s0, 20
-  sw t0, -4(s0)
-  sw t1, -8(s0)
-  sw t2, -12(s0)
-  sw t3, -16(s0)
-  sw t4, -20(s0)
-# // ==================
-  addi s0, s0, 20
-  lw t5, -40(s0)     # t5 = t4
-  lw t4, -16(s0)
-  sw t5, -4(s0)      
-  sb t5, -8(s0)
-  sh t5, -12(s0)
-  sb t5, -13(s0)
-  sh t5, -18(s0) 
-# // ==================
-  lw t0 ,-16(s0)     # t0 = 0x78000000
-  lw t1, -20(s0)     # t0 = 0x5678000
-  add t2, t1, t0     # t2 = 0xce780000
-  addi s0, s0, 4
-  sw t2, -4(s0)
-beq:
-  li t0, 0xfffff000
-  li t1, 0xfffff000
-  li t1, 0x00000ff0
-  beq t0, t1, 1f
-  beq t0, t1, 1f
-  beq t0, t1, 1f
-  beq t0, t1, 1f
-  beq t0, t1, 1f
-  li t1, 0xfffff000
-  li t1, 0x00000fff
-  beq t1, t0, 1f
-  beq t1, t0, 1f
-  beq t1, t0, 1f
-  beq t1, t0, 1f
-  beq t1, t0, 1f
-  j 2f
-1:
-  ori t0, t0, 1      # t0 = 0xfffff001 // Shouldn't be execute
-2:
-  xori t1, t1, -1    # t1 = 0xfffff000
-  beq t0, t1, 3f
-  ori t0, t0, 2      # t0 = 0xfffff002 // Shouldn't be execute
-3:
-  sw t0, 0(s0)
-  addi s0, s0, 4
-bne:
-  li t0, 0xfffff000
-  li t1, 0x00000ff0
-  li t1, 0xfffff000
-  bne t0, t1, 1f
-  bne t0, t1, 1f
-  bne t0, t1, 1f
-  bne t0, t1, 1f
-  bne t0, t1, 1f
-  li t1, 0x00000fff
-  li t1, 0xfffff000
-  bne t1, t0, 1f
-  bne t1, t0, 1f
-  bne t1, t0, 1f
-  bne t1, t0, 1f
-  bne t1, t0, 1f
-  j 2f
-1:
-  ori t0, t0, 1      # t0 = 0xfffff001 // Shouldn't be execute
-2:
-  xori t1, t1, -1    # t1 = 0x00000fff
-  bne t0, t1, 3f
-  ori t0, t0, 2      # t0 = 0xfffff002 // Shouldn't be execute
-3:
-  sw t0, 0(s0)
-  addi s0, s0, 4
-blt:
-  li t0, 0xfffff000
-  li t1, 0x00000ff0
-  addi t1, t0, -4    # t1 = 0xffffeffc
-  blt t0, t1, 1f
-  blt t0, t1, 1f
-  blt t0, t1, 1f
-  blt t0, t1, 1f
-  blt t0, t1, 1f
-  li t1, 0x00000fff
-  addi t1, t0, 4     # t1 = 0xfffff004
-  blt t1, t0, 1f
-  blt t1, t0, 1f
-  blt t1, t0, 1f
-  blt t1, t0, 1f
-  blt t1, t0, 1f
-  j 2f
-1:
-  ori t0, t0, 1      # t0 = 0xfffff001 // Shouldn't be execute
-2:
-  li t1, 0x00000fff
-  blt t0, t1, 3f     # test '<'
-  ori t0, t0, 2      # t0 = 0xfffff002 // Shouldn't be execute
-3:
-  mv t1, t0
-  blt t0, t1, 4f     # test '='
-  j 5f
-4:
-  ori t0, t0, 4      # t0 = 0xfffff004 // Shouldn't be execute
-5:
-  li t1, 0xffffeeee
-  blt t0, t1, 6f     # test '>'
-  j 7f
-6:
-  ori t0, t0, 8      # t0 = 0xfffff008 // Shouldn't be execute
-7:
-  sw t0, 0(s0)
-  addi s0, s0, 4
-bge:
-  li t0, 0xfffff000
-  li t1, 0xfffff000
-  addi t1, t0, 4     # t1 = 0xfffff004
-  bge t0, t1, 1f
-  bge t0, t1, 1f
-  bge t0, t1, 1f
-  bge t0, t1, 1f
-  bge t0, t1, 1f
-  li t1, 0xffff0000
-  addi t1, t0, -4    # t1 = 0xffffeffc
-  bge t1, t0, 1f
-  bge t1, t0, 1f
-  bge t1, t0, 1f
-  bge t1, t0, 1f
-  bge t1, t0, 1f
-  j 2f
-1:
-  ori t0, t0, 1      # t0 = 0xfffff001 // Shouldn't be execute
-2:
-  li t1, 0x00000fff
-  bge t0, t1, 3f     # test '<'
-  j 4f
-3:
-  ori t0, t0, 2      # t0 = 0xfffff002 // Shouldn't be execute
-4:
-  mv t1, t0
-  bge t0, t1, 5f     # test '='
-  ori t0, t0, 4      # t0 = 0xfffff004 // Shouldn't be execute
-5:
-  li t1, 0xffffeeee
-  bge t0, t1, 6f     # test '>'
-  ori t0, t0, 8      # t0 = 0xfffff008 // Shouldn't be execute
-6:
-  sw t0, 0(s0)
-  addi s0, s0, 4
-bltu:
-  li t0, 0xfffff000
-  li t1, 0xffffff00
-  addi t1, t0, -4    # t1 = 0xffffeffc
-  bltu t0, t1, 1f
-  bltu t0, t1, 1f
-  bltu t0, t1, 1f
-  bltu t0, t1, 1f
-  bltu t0, t1, 1f
-  li t1, 0xffffffff
-  addi t1, t0, 4     # t1 = 0xfffff004
-  bltu t1, t0, 1f
-  bltu t1, t0, 1f
-  bltu t1, t0, 1f
-  bltu t1, t0, 1f
-  bltu t1, t0, 1f
-  j 2f
-1:
-  ori t0, t0, 1      # t0 = 0xfffff001 // Shouldn't be execute
-2:
-  li t1, 0xffffffff
-  bltu t0, t1, 3f    # test '<'
-  ori t0, t0, 2      # t0 = 0xfffff002 // Shouldn't be execute
-3:
-  mv t1, t0
-  bltu t0, t1, 4f    # test '='
-  j 5f
-4:
-  ori t0, t0, 4      # t0 = 0xfffff004 // Shouldn't be execute
-5:
-  li t1, 0x00000fff
-  bltu t0, t1, 6f    # test '>'
-  j 7f
-6:
-  ori t0, t0, 8      # t0 = 0xfffff008 // Shouldn't be execute
-7:
-  sw t0, 0(s0)
-  addi s0, s0, 4
-bgeu:
-  li t0, 0xfffff000
-  li t1, 0xfffff000
-  addi t1, t0, 4     # t1 = 0xfffff004
-  bgeu t0, t1, 1f
-  bgeu t0, t1, 1f
-  bgeu t0, t1, 1f
-  bgeu t0, t1, 1f
-  bgeu t0, t1, 1f
-  li t1, 0x00000fff
-  addi t1, t0, -4    # t1 = 0xffffeffc
-  bgeu t1, t0, 1f
-  bgeu t1, t0, 1f
-  bgeu t1, t0, 1f
-  bgeu t1, t0, 1f
-  bgeu t1, t0, 1f
-  j 2f
-1:
-  ori t0, t0, 1      # t0 = 0xfffff001 // Shouldn't be execute
-2:
-  li t1, 0xffffffff
-  bgeu t0, t1, 3f    # test '<'
-  j 4f
-3:
-  ori t0, t0, 2      # t0 = 0xfffff002 // Shouldn't be execute
-4:
-  mv t1, t0
-  bgeu t0, t1, 5f    # test '='
-  ori t0, t0, 4      # t0 = 0xfffff004 // Shouldn't be execute
-5:
-  li t1, 0x00000fff
-  bgeu t0, t1, 6f    # test '>'
-  ori t0, t0, 8      # t0 = 0xfffff008 // Shouldn't be execute
-6:
-  sw t0, 0(s0)
-  addi s0, s0, 4
-auipc:
-  auipc t0, 0x00000  # t0 = 0x00000ac8
-  auipc t1, 0xfffff  # t1 = 0xfffffacc
-  auipc t2, 0x13579  # t2 = 0x13579ad0
-  add t1, t1, t2     # t1 = 0x1357959c
-  add t0, t0, t1     # t0 = 0x1357a064
-  sw t0, 0(s0)
-  addi s0, s0, 4
-lui:
-  lui t0, 0x00000    # t0 = 0x00000000
-  lui t1, 0xfffff    # t1 = 0xfffff000
-  lui t2, 0x13579    # t2 = 0x13579000
-  add t1, t1, t2     # t1 = 0x13578000
-  add t0, t0, t1     # t0 = 0x13578000
-  sw t0, 0(s0)
-  addi s0, s0, 4
-jal:
-  li t0, 0xfffff000  #
-  jal t1, 1f
-  ori t0, t0, 1      # t0 = 0xfffff001 // Shouldn't be executed
-1:
-  la t2, 1b
-  sub t1, t2, t1
-  add t0, t0, t1     # t0 = 0xfffff004
-  sw t0, 0(s0)
-  addi s0, s0, 4
 
+# ######################################
+
+
+# ######################################
+# ### Main Program
+# ######################################
+
+#######################################################
+    # <  Variable >
+    #    s0 : test_size
+    #    t0 : address of test
+############### callee save ###########################
+    addi sp,sp,-8    # 給定儲存空間
+                     # sp=sp-8
+    sw   ra,0(sp)    # ra->mem[@sp-4]
+    sw   s0,4(sp)
+############### merge test1 ###########################
+    la   t0,test1       # t0 = address of  test1
+    lw   s0,TEST1_SIZE  # s0 = t1_size
+    addi s0,s0,-1       # t1_size-1
+
+    mv   a0,t0          # a0= address of test1
+    mv   a1,x0          # a1= 0
+    mv   a3,s0          # a3= size-1
+
+    # call mergesort and do caller saving
+    addi sp,sp,-4
+    sw   ra,0(sp)
+    jal  ra,mergesort
+    lw   ra,0(sp)
+    addi sp,sp,4
+
+
+############### merge test2 ###########################
+    la   t0,test2
+    lw   s0,TEST2_SIZE
+    addi s0,s0,-1
+
+    mv   a0,t0
+    mv   a1,x0
+    mv   a3,s0
+
+    # call mergesort and do caller saving
+    addi sp,sp,-4
+    sw   ra,0(sp)
+    jal  ra,mergesort
+    lw   ra,0(sp)
+    addi sp,sp,4
+
+############### merge test3 ###########################
+    la   t0,test3
+    lw   s0,TEST3_SIZE
+    addi s0,s0,-1
+
+    mv   a0,t0
+    mv   a1,x0
+    mv   a3,s0
+
+    # call mergesort and do caller saving
+    addi sp,sp,-4
+    sw   ra,0(sp)
+    jal  ra,mergesort
+    lw   ra,0(sp)
+    addi sp,sp,4
+############# resave data###############################
+    lw      ra,0(sp)
+    lw      s0,4(sp)
+    addi    sp,sp,8
+
+# move data to assigned address #
+    la      t1,test1
+    lw      t2,TEST1_SIZE
+    lw      t3,TEST2_SIZE
+    lw      t4,TEST3_SIZE
+    add     t2,t2,t3            
+    add     t2,t2,t4            # t2 = size1 + size2 +size3
+    li      t5,0                # t5 = i
+    li      t3,0x9000           # t3 = answer target
+datamove:
+    lw      t4,0(t1)
+    sw      t4,0(t3)            #  MOVE data to t3
+    addi    t5,t5,1
+    addi    t1,t1,4
+    addi    t3,t3,4
+    blt     t5,t2,datamove      # if i < total size  do loop
+
+    jal     x0,main_exit
+
+
+merge:
+#######################################################
+    # < Function >
+    #    merge
+    # < Parameters >
+    #    a0 : array address
+    #    a1 : start
+    #    a2 : mid
+    #    a3 : end
+#######################################################
+    # <  Variable >
+    #    t0 : temp_size
+    #    t1 : space for temp_size array
+    #    t2 : i
+    #    t3 : 轉存陣列資料處
+    #    t4 : left_index
+    #    t5 : right_index
+    #    t6 : add[i+start]
+
+    #    s0 : left_max
+    #    s1 : right_max
+    #    s2 : arr_index
+    #    s3 : 4*left_index+ temp address
+    #    s4 : 4*right_index+ temp address
+    #    s5 : 4*s2+address of arr
+    #    s6 : *(s3)
+    #    s7 : *(s4)
+    #    s8 : 0x01000000
+    #    s9 : addtress of temp
+############### callee save ###########################
+    addi    sp, sp, -44               # Allocate stack space
+                                      # sp = @sp - 44
+    
+    sw      ra, 0(sp)                 # @ra -> MEM[@sp - 4]
+    sw      s0, 4(sp)
+    sw      s1, 8(sp)
+    sw      s2, 12(sp)
+    sw      s3, 16(sp)
+    sw      s4, 20(sp)
+    sw      s5, 24(sp)
+    sw      s6, 28(sp)
+    sw      s7, 32(sp)
+    sw      s8, 36(sp)
+    sw      s9, 40(sp)
+#######################################################
+    sub     t0,a3,a1                 # t0=temp_size=end-start+1
+    addi    t0,t0,1
+
+    slli    t1,t0,2                  # give temp array a space
+    addi    s9,sp,-4                 # now s9 =address of temp
+    sub     sp,sp,t1
+
+    li      t2,0                     # i=0
+    slli    t6,a1,2                  # t6=4*start
+    add     t6,t6,a0                 # t6=address of arr[start]
+    
+    addi    sp, sp, -4              
+    sw      s9, 0(sp)
+temp_duplicated_for:
+    lw      t3,0(t6)                   # t3=arr[i+start]
+    sw      t3,0(s9)                    # temp[i]=t3
+
+    addi    t6,t6,4                     # arr[i+START+1]
+    addi    s9,s9,-4                    # temp[i+1]
+
+    addi    t2,t2,1                     # i++
+    blt     t2,t0,temp_duplicated_for   # if i<temp_size loop
+
+    lw      s9, 0(sp)
+    addi    sp, sp, 4 
+
+    #   load some variable #
+    li      t4,0        # left_index=0
+
+    sub     t5,a2,a1    # right_index=mid-start+1
+    addi    t5,t5,1
+
+    sub     s0,a2,a1    # left_max = mid-start
+    sub     s1,a3,a1    # right_max = end-start
+    mv      s2,a1       # arr_index = start
+
+    slli    s3,t4,2     
+    sub     s3,s9,s3    # s3= temp[left_index] address
+  
+
+    slli    s4,t5,2     
+    sub     s4,s9,s4    # s4= temp[right_index] address
+
+    
+    slli    s5,s2,2     # s5= address of arr[array index]
+    add     s5,s5,a0    
+    
+    blt     s0,t4,while_loop_A_end  # if left_max < index
+    blt     s1,t5,while_loop_A_end  # or right_max < index endloop
+while_loop_sort_A:
+    lw      s6,0(s3)        # s6=*s3
+    lw      s7,0(s4)        # s7=*s4
+    bge     s7,s6,if_a      # temp[left_index] <= temp[right_index] go if
+    jal     x0,else_a   
+
+if_a:
+    sw      s6,0(s5)        # arr[arr_index] = temp[left_index]
+    addi    s2,s2,1         # arr_index++
+    addi    t4,t4,1         # left_index++
+    addi    s3,s3,-4
+    addi    s5,s5,4
+    lw      s6,0(s3)
+
+    blt     s0,t4,while_loop_A_end
+    blt     s1,t5,while_loop_A_end
+    jal     x0,while_loop_sort_A
+else_a:
+    sw      s7,0(s5)        # arr[arr_index] = temp[right_index]
+    addi    s2,s2,1         # arr_index++
+    addi    t5,t5,1         # right_index++
+    addi    s4,s4,-4
+    addi    s5,s5,4
+    lw      s7,0(s4)
+
+    blt     s0,t4,while_loop_A_end
+    blt     s1,t5,while_loop_A_end
+    jal     x0,while_loop_sort_A
+
+while_loop_A_end:
+    bge     s0,t4,while_loop_B  # left_max >= left_index do loop B
+    bge     s1,t5,while_loop_C  # right_max>= right_index do loop C
+    jal     x0,merge_end        
+
+while_loop_B:
+    sw      s6,0(s5)            # arr[arr_index] = temp[left_index]
+    addi    s2,s2,1
+    addi    t4,t4,1
+    addi    s3,s3,-4
+    addi    s5,s5,4
+    lw      s6,0(s3)
+
+    bge     s0,t4,while_loop_B
+    jal     x0,while_loop_A_end
+
+while_loop_C:
+    sw      s7,0(s5)            # arr[arr_index] = temp[right_index]
+    addi    s2,s2,1
+    addi    t5,t5,1
+    addi    s4,s4,-4
+    addi    s5,s5,4
+    lw      s7,0(s4)
+
+    bge     s1,t5,while_loop_C
+    jal     x0,while_loop_A_end
+######## ############### end merge #################### ###########
+######## ############### resave Parameters #################### ###########
+merge_end:
+    add     sp,sp,t1
+
+    lw      ra, 0(sp)                 
+    lw      s0, 4(sp)
+    lw      s1, 8(sp)
+    lw      s2, 12(sp)
+    lw      s3, 16(sp)
+    lw      s4, 20(sp)
+    lw      s5, 24(sp)
+    lw      s6, 28(sp)
+    lw      s7, 32(sp)
+    lw      s8, 36(sp)
+    lw      s9, 40(sp)
+    addi    sp, sp, 44
+    ret
+mergesort:
+#######################################################
+    # < Function >
+    #    merge
+    # < Parameters >
+    #    a0 : array address
+    #    a1 : start
+    #    a3 : end
+
+    #    s1 : start
+    #    s2 : mid
+    #    s3 : end
+############### callee save ###########################
+    addi    sp,sp,-12                   
+    sw      s1,0(sp)
+    sw      s2,4(sp)
+    sw      s3,8(sp)
+    addi    sp, sp, -4                # Allocate stack space
+                                      # sp = @sp - 4
+    
+    sw      ra, 0(sp)                 # @ra -> MEM[@sp - 4]
+    bge     a1,a3,end
+if_b:
+    add     s2,a1,a3
+    srli    s2,s2,1                   # mid=(end+start)/2
+    mv      s1,a1
+    mv      s3,a3
+    ############### caller save ###########################
+    addi    sp,sp,-4   # 給定儲存空間
+                     # sp=sp-4
+    sw      ra,0(sp)   # ra->mem[@sp-4]
+    mv      a3,s2
+    jal     ra,mergesort
+    lw      ra,0(sp)
+    addi    sp,sp,4
+    ############### caller save ###########################
+    addi    s2,s2,1         # mid+1
+    mv      a1,s2           # start(argument)=mid+1(para)
+    mv      a3,s3
+    addi    sp,sp,-4   # 給定儲存空間
+                     # sp=sp-4
+    sw      ra,0(sp)   # ra->mem[@sp-4]
+    jal     ra,mergesort
+    lw      ra,0(sp)
+    addi    sp,sp,4
+    ############### caller save ###########################
+    addi    s2,s2,-1       # mid+1-1=mid
+    mv      a1,s1
+    mv      a2,s2
+    mv      a3,s3
+    addi    sp,sp,-4   # 給定儲存空間
+                     # sp=sp-4
+    sw       ra,0(sp)   # ra->mem[@sp-4] 
+    jal     ra,merge
+    lw      ra,0(sp)
+    addi    sp,sp,4
+
+end:
+    lw      ra,0(sp)
+    addi    sp,sp,4
+
+    lw      s1,0(sp)
+    lw      s2,4(sp)
+    lw      s3,8(sp)
+    addi    sp,sp,12
+    ret
 
 main_exit:
-  /* Simulation End */
+
+# ######################################
+# ### Return to end the simulation
+# ######################################
+
   lw s0, 0(sp)
   addi sp, sp, 4
   ret
