@@ -81,21 +81,34 @@ Additional datapath features:
 ### 5.2 ⇨ Synthesis Results (placeholder)
 
 Clock period	<!-- 14 ns -->	Target = 14 ns (≈ 71 MHz)
-- Setup Slack	<!-- > 0.27 ns -->	
+- Setup Slack	<!-- > 0.27 ns -->
+
 ![report_timing_setup_time](doc/report_timing_setup_time.png)
-- Hold Slack	<!-- > 0 ns -->	
+
+- Hold Slack	<!-- > 0 ns -->
+
 ![report_timing_hold_time](doc/report_timing_hold_time.png)
-- Cell Area	<!-- 576288 µm² -->	
+
+- Cell Area	<!-- 576288 µm² -->
+
 ![report_area](doc/report_area.png)
-- Total Power	<!-- 15.4877 mW -->	
+
+- Total Power	<!-- 15.4877 mW -->
+
 ![report_power](doc/report_power.png)
+
 
 ###　5.3 ⇨ Layout Results
 - layout result:
+
 ![layout_result](doc/layout_result.png)
+
 - pin diagram:
+
 ![pin_diagram](doc/pin_diagram.png)
+
 - layout area:
+
 ![layout_area](doc/layout_area.png)
 
 ---
