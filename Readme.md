@@ -1,70 +1,93 @@
-# Pipelined RISC-V CPU with FPU and Booth Multiplier
+# 5-Stage Pipelined RISC-V CPU  
+*with IEEE-754 FPU, Booth Multiplier, and Branch Predictor*
 
-This project implements a 5-stage pipelined RISC-V processor that supports floating-point instructions and a Booth multiplier.  
-The full RTL-to-GDS flow was carried out using industry tools such as Design Compiler, ICC2, and layout verification utilities.
-
----
-
-## 🔧 Features
-- 5-stage pipeline: **IF → ID → EX → MEM → WB**  
-- IEEE-754 single-precision FPU  
-- Booth multiplier for signed multiplication
-- branch predictor  
-- Hazard detection & forwarding  
-- 100 % functional coverage with custom testbench  
-- Complete ASIC flow: SuperLint → Design Compiler → ICC2 → GDS export
+> **Course:** VLSI System Design &nbsp;|&nbsp; **Target ISA:** RV32I / RV32F / RV32M  
+> **Flow:** RTL → Synthesis → Place-and-Route → GDSII  
 
 ---
 
-## 🚀 Booth Multiplier Design
-- Implements Radix-2 Booth’s Algorithm
+## 1. Overview
+This project implements a classic 5-stage pipeline (IF → ID → EX → MEM → WB) and extends it with:
 
-- Efficient when the multiplier contains long runs of 1s
+- **IEEE-754 Single-Precision FPU**
+- **Radix-2 Booth Multiplier**
+- **2-bit Bimodal Branch Predictor**
+- **Hazard Detection & Forwarding**
 
-- Handles signed multiplication via mul rd, rs1, rs2
-
-- Uses mulshift & mulshift_c for partial-product updates
-
----
-
-## 🔬 FPU Implementation
-- Mantissa normalization, exponent alignment, rounding, sign logic
-
-- Data forwarding between consecutive FP ops
-
-- Verified with waveform analysis (nWave)
+A complete ASIC flow is demonstrated using **SuperLint**, **Synopsys Design Compiler**, **ICC2**, and layout verification tools. All RTL is written in Verilog - SystemVerilog.
 
 ---
 
-## ✅ Verification Highlights
-- Integer, floating-point, logic, and control test vectors
-
-- 100 % coverage reported by Design Compiler
-
-- Fixed predictor one-cycle delay & controller mis-decode issues
-
-- Waveform back-tracing to resolve cross-stage hazards
-
----
-
-## 🛠️ Tools Used
-- SuperLint – RTL linting
-
-- Design Compiler – Logic synthesis
-
-- ICC2 – Place & route
-
-- nWave – Waveform viewer
-
-- Synopsys layout tools – DRC / LVS / GDS export
+## 2. Key Features
+| Category | Details |
+|----------|---------|
+| **Pipeline** | 5 stages, fully interlocked, bypass paths for ALU & FPU |
+| **FPU Ops** | `FLW / FSW / FADD.S / FSUB.S / FMUL.S / FMIN.S / FMAX.S / FEQ.S / FLT.S / FLE.S / FCVT.W.S / FCVT.WU.s / FCVT.S.W / FCVT.S.WU / FMV.X.W / FMV.X.W |
+| **Integer ALU** | Full RV32I + (`MUL`) | 
+| **Branch Predictor** | one level bimodal predictor |
+| **Multiplier** | booth algorithm |
+| **Verification** | Custom testbench, 100 % block & expression coverage , 89 % toggle |
+| **Flow** | Lint → Compile → P&R → DRC/LVS → **GDS** output |
 
 ---
 
-## 📚 References
-VLSI System Design lecture notes
+## 3. Architecture
+ ```markdown
+>   ![Architecture](doc/Architecture.png)
+>   ```
 
-Computer Organization lecture notes
+---
 
-RISC-V Instruction Set Manual
+## 4. Verification
+Integer Core Test (prog0) – RV32I arithmetic / logic
 
+Multiply Test (prog4) – RV32M MUL stress-test
 
+Floating-Point Test (prog3) – RV32F load/store, ALU ops
+
+System-level Programs – Merge-sort, Fibonacci
+
+All programs write results to data memory; a Python test-harness compares against golden values and prints simulation pass on success.
+
+---
+
+## 6. Results
+### 6.1 Lint & Coverage
+Metric	Result
+SuperLint	0 blocking errors
+Block Coverage	100 %
+Expression Coverage	100 %
+Toggle Coverage	89 %
+
+###　6.2 ⇨ Synthesis Results (placeholder)
+Replace the table below after running final compile_ultra / report_timing, report_area, report_power.
+
+Metric	Value	Note
+Clock period	<!-- 14 ns -->	Target = 14 ns (≈ 71 MHz)
+Setup Slack	<!-- > 0 ns -->	
+Hold Slack	<!-- > 0 ns -->	
+Cell Area	<!-- xxxx µm² -->	
+Total Power	<!-- xxx mW -->	
+
+###　6.3 ⇨ Layout Results (placeholder)
+Insert DEF/GDS screenshots and pin diagram here.
+
+Core Area: <!-- x µm × y µm -->
+
+Die Area : <!-- x µm × y µm -->
+
+## 7. Future Work ⭐
+Cache Integration – A parameterised Harvard-style cache module (I-Cache & D-Cache) has been prototyped but is not yet connected to the CPU pipeline. Future steps:
+
+Add AXI-lite wrapper between cache and memories
+
+Insert stall logic for cache miss penalties
+
+Re-run timing and area analysis with caches enabled
+
+## 8. References
+VLSI System Design – Course Lecture Notes
+
+Computer Organization – Course Lecture Notes
+
+RISC-V ISA Specification
