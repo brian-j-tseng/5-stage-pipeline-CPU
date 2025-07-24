@@ -33,7 +33,7 @@ A complete ASIC flow is demonstrated using **SuperLint**, **Synopsys Design Comp
 
 ## 3. Architecture
 
-![Five-Stage Pipeline Block Diagram](doc/architecture.png)
+![architecture](doc/architecture.png)
 
 *Figure – High-level datapath; red bars mark the IF, ID, EX, MEM and WB stage boundaries.*
 
@@ -71,28 +71,31 @@ Additional datapath features:
 ### 5.1 Lint & Coverage
 
 - SuperLint	0 blocking errors
-![Five-Stage Pipeline Block Diagram](doc/architecture.png)
+![superlint](doc/superlint.png)
 - Block Coverage	100 %
 - Expression Coverage	100 %
 - Toggle Coverage	89 %
-![Five-Stage Pipeline Block Diagram](doc/architecture.png)\
+![ICC](doc/ICC.png)
 
 ### 5.2 ⇨ Synthesis Results (placeholder)
 
 Clock period	<!-- 14 ns -->	Target = 14 ns (≈ 71 MHz)
 - Setup Slack	<!-- > 0.27 ns -->	
-![Five-Stage Pipeline Block Diagram](doc/architecture.png)
+![report_timing_setup_time](doc/report_timing_setup_time.png)
 - Hold Slack	<!-- > 0 ns -->	
-![Five-Stage Pipeline Block Diagram](doc/architecture.png)
+![report_timing_hold_time](doc/report_timing_hold_time.png)
 - Cell Area	<!-- 576288 µm² -->	
-![Five-Stage Pipeline Block Diagram](doc/architecture.png)
+![report_area](doc/report_area.png)
 - Total Power	<!-- 15.4877 mW -->	
-![Five-Stage Pipeline Block Diagram](doc/architecture.png)
+![report_power](doc/report_power.png)
 
-###　5.3 ⇨ Layout Results (placeholder)
-![Five-Stage Pipeline Block Diagram](doc/architecture.png)
-![Five-Stage Pipeline Block Diagram](doc/architecture.png)
-![Five-Stage Pipeline Block Diagram](doc/architecture.png)
+###　5.3 ⇨ Layout Results
+- layout result:
+![layout_result](doc/layout_result.png)
+- pin diagram:
+![pin_diagram](doc/pin_diagram.png)
+- layout area:
+![layout_area](doc/layout_area.png)
 
 ---
 
