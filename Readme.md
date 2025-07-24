@@ -32,60 +32,83 @@ A complete ASIC flow is demonstrated using **SuperLint**, **Synopsys Design Comp
 ---
 
 ## 3. Architecture
- ```markdown
->   ![Architecture](doc/Architecture.png)
->   ```
 
+![Five-Stage Pipeline Block Diagram](doc/architecture.png)
+
+*Figure – High-level datapath; red bars mark the IF, ID, EX, MEM and WB stage boundaries.*
+
+| Stage | Major Blocks (see diagram) | Purpose |
+|-------|---------------------------|---------|
+| **IF** | **PC**, **IM** (Instruction Memory), **Branch Predictor** | Fetch next instruction, generate predicted PC. |
+| **ID** | **Decoder**, **Imm Ext**, **Reg File**, **FReg File** | Decode opcode / funct; read integer and floating-point registers; sign/zero-extend immediates. |
+| **EX** | **ALU**, **FALU**, **Booth Multiplier**, **JB Unit** | Integer ALU ops, IEEE-754 FP ops, signed multiplication, branch/jump target calculation. |
+| **MEM** | **DM** (Data Memory), **LD Filter** | Perform load/store; adjust byte/half-word loads via LD Filter. |
+| **WB** | Write-back muxes (integer & FP) | Commit results to `RegFile` / `FRegFile`. |
+
+Additional datapath features:
+
+- **Forwarding paths** (blue/red wires) minimise data hazards.
+- **Controller logic** (not shown) generates stall / flush signals and multiplexer selects.
+- **Split IM/DM memories** eliminate structural hazards between fetch and data access.
 ---
 
 ## 4. Verification
-Integer Core Test (prog0) – RV32I arithmetic / logic
+- prog00: Integer Core Test – RV32I arithmetic / logic
 
-Multiply Test (prog4) – RV32M MUL stress-test
+- prog01: System-level Programs – Merge-sort
 
-Floating-Point Test (prog3) – RV32F load/store, ALU ops
+- prog02: Fibonacci
 
-System-level Programs – Merge-sort, Fibonacci
+- prog03: Floating-Point Test – RV32F load/store
 
-All programs write results to data memory; a Python test-harness compares against golden values and prints simulation pass on success.
+- prog04: Multiply Test (prog4) – RV32M MUL stress-test
+
+- All programs write results to data memory; a Python test-harness compares against golden values and prints simulation pass on success.
 
 ---
 
-## 6. Results
-### 6.1 Lint & Coverage
-Metric	Result
-SuperLint	0 blocking errors
-Block Coverage	100 %
-Expression Coverage	100 %
-Toggle Coverage	89 %
+## 5. Results
+### 5.1 Lint & Coverage
 
-###　6.2 ⇨ Synthesis Results (placeholder)
-Replace the table below after running final compile_ultra / report_timing, report_area, report_power.
+- SuperLint	0 blocking errors
+![Five-Stage Pipeline Block Diagram](doc/architecture.png)
+- Block Coverage	100 %
+![Five-Stage Pipeline Block Diagram](doc/architecture.png)
+- Expression Coverage	100 %
+![Five-Stage Pipeline Block Diagram](doc/architecture.png)
+- Toggle Coverage	89 %
+![Five-Stage Pipeline Block Diagram](doc/architecture.png)
 
-Metric	Value	Note
+### 5.2 ⇨ Synthesis Results (placeholder)
+
 Clock period	<!-- 14 ns -->	Target = 14 ns (≈ 71 MHz)
-Setup Slack	<!-- > 0 ns -->	
-Hold Slack	<!-- > 0 ns -->	
-Cell Area	<!-- xxxx µm² -->	
-Total Power	<!-- xxx mW -->	
+- Setup Slack	<!-- > 0.27 ns -->	
+![Five-Stage Pipeline Block Diagram](doc/architecture.png)
+- Hold Slack	<!-- > 0 ns -->	
+![Five-Stage Pipeline Block Diagram](doc/architecture.png)
+- Cell Area	<!-- 576288 µm² -->	
+![Five-Stage Pipeline Block Diagram](doc/architecture.png)
+- Total Power	<!-- 15.4877 mW -->	
+![Five-Stage Pipeline Block Diagram](doc/architecture.png)
 
-###　6.3 ⇨ Layout Results (placeholder)
-Insert DEF/GDS screenshots and pin diagram here.
+###　5.3 ⇨ Layout Results (placeholder)
+![Five-Stage Pipeline Block Diagram](doc/architecture.png)
+![Five-Stage Pipeline Block Diagram](doc/architecture.png)
+![Five-Stage Pipeline Block Diagram](doc/architecture.png)
 
-Core Area: <!-- x µm × y µm -->
+---
 
-Die Area : <!-- x µm × y µm -->
+## 6. Future Work ⭐
+Cache Integration – A basic cache module has been prototyped but is not yet connected to the CPU pipeline. 
 
-## 7. Future Work ⭐
-Cache Integration – A parameterised Harvard-style cache module (I-Cache & D-Cache) has been prototyped but is not yet connected to the CPU pipeline. Future steps:
-
+Future steps:
 Add AXI-lite wrapper between cache and memories
-
 Insert stall logic for cache miss penalties
-
 Re-run timing and area analysis with caches enabled
 
-## 8. References
+---
+
+## 7. References
 VLSI System Design – Course Lecture Notes
 
 Computer Organization – Course Lecture Notes
