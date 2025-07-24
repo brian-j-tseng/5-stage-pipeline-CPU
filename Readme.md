@@ -71,6 +71,7 @@ Additional datapath features:
 ### 5.1 Lint & Coverage
 
 - SuperLint	0 blocking errors
+
 ![superlint](doc/superlint.png)
 - Block Coverage	100 %
 - Expression Coverage	100 %
