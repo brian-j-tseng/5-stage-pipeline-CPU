@@ -3,20 +3,20 @@
 `define CYCLE 30.0      // Cycle time
 `define MAX 100000    // Max cycle number
 
-`define prog_path0 "./test/prog0/main.hex"
-`define gold_path0 "./test/prog0/golden.hex"
+`define prog_path0 "../test/prog00/main.hex"
+`define gold_path0 "../test/prog00/golden.hex"
 
-`define prog_path1 "./test/prog1/main.hex"
-`define gold_path1 "./test/prog1/golden.hex"
+`define prog_path1 "../test/prog01/main.hex"
+`define gold_path1 "../test/prog01/golden.hex"
 
-`define prog_path2 "./test/prog2/main.hex"
-`define gold_path2 "./test/prog2/golden.hex"
+`define prog_path2 "../test/prog02/main.hex"
+`define gold_path2 "../test/prog02/golden.hex"
 
-`define prog_path3 "./test/prog3/main.hex"
-`define gold_path3 "./test/prog3/golden.hex"
+`define prog_path3 "../test/prog03/main.hex"
+`define gold_path3 "../test/prog03/golden.hex"
 
-`define prog_path4 "./test/prog4/main.hex"
-`define gold_path4 "./test/prog4/golden.hex"
+`define prog_path4 "../test/prog04/main.hex"
+`define gold_path4 "../test/prog04/golden.hex"
 
 `define mem_word(addr) \
   {dm.mem[addr+3], \
