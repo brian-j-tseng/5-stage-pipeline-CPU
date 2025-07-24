@@ -73,11 +73,9 @@ Additional datapath features:
 - SuperLint	0 blocking errors
 ![Five-Stage Pipeline Block Diagram](doc/architecture.png)
 - Block Coverage	100 %
-![Five-Stage Pipeline Block Diagram](doc/architecture.png)
 - Expression Coverage	100 %
-![Five-Stage Pipeline Block Diagram](doc/architecture.png)
 - Toggle Coverage	89 %
-![Five-Stage Pipeline Block Diagram](doc/architecture.png)
+![Five-Stage Pipeline Block Diagram](doc/architecture.png)\
 
 ### 5.2 ⇨ Synthesis Results (placeholder)
 
